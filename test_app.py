@@ -47,3 +47,15 @@ class CustomerCitationTests(unittest.TestCase):
             "<p>Keep 【your receipt】, [this note], and <code>manual.md</code>.</p>\n"
             "<p>Contact support.</p>\n",
         )
+
+    def test_removes_inline_step_citations(self):
+        html = self.render_reply(
+            "1. **Disconnect the dock**. [laptop-power.md]\n"
+            "2. Check the charging indicator. [laptop-power.md]\n\n"
+            "Check the coverage terms. [laptop-power.md] [warranty.md]"
+        )
+
+        self.assertIn("<li><strong>Disconnect the dock</strong>.</li>", html)
+        self.assertIn("<li>Check the charging indicator.</li>", html)
+        self.assertIn("<p>Check the coverage terms.</p>", html)
+        self.assertNotIn(".md", html)
