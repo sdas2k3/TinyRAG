@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#f6f7f2">
+  <title>Customer support · TinyRAG</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='chat.css') }}">
+  <script src="{{ url_for('static', filename='chat.js') }}" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap brand">
+      <span class="brand-mark" aria-hidden="true"><span class="chat-icon"></span></span>
+      <span>TinyRAG</span>
+      <h1 class="page-title">Customer support</h1>
+    </div>
+  </header>
+
+  <main class="wrap main">
+    <div class="layout">
+      <section class="chat" aria-labelledby="chat-heading">
+        <header class="chat-header">
+          <span class="avatar header-avatar" aria-hidden="true"><span class="chat-icon"></span></span>
+          <div class="chat-heading">
+            <h2 id="chat-heading">TinyRAG Assistant</h2>
+            <p>Shop support</p>
+          </div>
+          <button type="button" class="restart" id="clear-chat" disabled><span aria-hidden="true">+</span> New chat</button>
+        </header>
+
+        <div class="conversation" id="conversation" tabindex="0" aria-label="Chat transcript">
+          <div class="messages" id="messages" role="log" aria-label="Messages">
+            <div class="turn assistant">
+              <span class="avatar" aria-hidden="true"><span class="chat-icon"></span></span>
+              <div class="message">
+                <p class="speaker">TinyRAG Assistant</p>
+                <div class="bubble welcome"><strong>Hi there!</strong><p>Tell me what you need help with.</p></div>
+              </div>
+            </div>
+            <div id="history"></div>
+          </div>
+
+          <div class="suggestions" id="suggestions" aria-label="Suggested questions">
+            <button type="button" data-question="How long do I have to request a refund?">Refund window <span aria-hidden="true">↗</span></button>
+            <button type="button" data-question="How much is standard shipping?">Shipping cost <span aria-hidden="true">↗</span></button>
+            <button type="button" data-question="My laptop won't charge">Laptop won’t charge <span aria-hidden="true">↗</span></button>
+          </div>
+
+          <div class="turn assistant typing" id="typing" hidden>
+            <span class="avatar" aria-hidden="true"><span class="chat-icon"></span></span>
+            <div class="message">
+              <p class="speaker" aria-hidden="true">TinyRAG Assistant</p>
+              <div class="bubble typing-bubble" aria-hidden="true"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+          <div class="sr-only" id="status" role="status"></div>
+        </div>
+
+        <form class="composer" id="question-form" action="{{ url_for('ask') }}" method="post">
+          <label class="sr-only" for="question">Your message</label>
+          <div class="input-row">
+            <textarea id="question" rows="1" maxlength="{{ max_question_length }}" placeholder="Type your message…" required></textarea>
+            <button type="submit" class="send" id="send" disabled>Send <span class="send-icon" aria-hidden="true"></span></button>
+          </div>
+          <p class="composer-note">Answers are based on the shop’s help articles.</p>
+        </form>
+      </section>
+
+      <aside class="topics" aria-labelledby="topics-heading">
+        <h2 id="topics-heading">Help topics</h2>
+        <button class="topics-toggle" id="topics-toggle" type="button" aria-expanded="false" aria-controls="topic-list">Help topics <span aria-hidden="true"></span></button>
+        <div class="topic-list" id="topic-list">
+          <button class="topic" type="button" data-question="How do I track my order?">
+            <span class="topic-icon parcel" aria-hidden="true"></span>
+            <span class="topic-copy"><strong>Orders &amp; delivery</strong><span>Tracking and shipping</span></span>
+            <span class="topic-arrow" aria-hidden="true">↗</span>
+          </button>
+          <button class="topic" type="button" data-question="How long do I have to request a refund, and is the original shipping fee refundable?">
+            <span class="topic-icon returns" aria-hidden="true">↶</span>
+            <span class="topic-copy"><strong>Returns &amp; refunds</strong><span>Eligibility and fees</span></span>
+            <span class="topic-arrow" aria-hidden="true">↗</span>
+          </button>
+          <button class="topic" type="button" data-question="How much does the notebook and planner bundle cost?">
+            <span class="topic-icon price" aria-hidden="true">$</span>
+            <span class="topic-copy"><strong>Products &amp; pricing</strong><span>Prices and bundles</span></span>
+            <span class="topic-arrow" aria-hidden="true">↗</span>
+          </button>
+          <button class="topic" type="button" data-question="My laptop won't charge">
+            <span class="topic-icon laptop" aria-hidden="true"></span>
+            <span class="topic-copy"><strong>Product support</strong><span>Laptop troubleshooting</span></span>
+            <span class="topic-arrow" aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>
